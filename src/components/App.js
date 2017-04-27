@@ -36,6 +36,16 @@ var App = React.createClass({
         return (
             <div>
                 <h1> LAS JSON Output</h1>
+                <ul>
+                    <li>Using:
+                        <li>Node.js</li>
+                        <li>Express 4.15.2</li>
+                        <li>React 15.5.4</li>
+                    </li>
+                </ul>
+                <div className='bg-success'>
+                    This App loads a JSON file converted from an LAS2.0 and formats the data</div>
+                <a href="las.json" target="_blank">las.json</a>
 
             <hr />
             <MakeTable data={this.state.vers} cap="Version Info" />
