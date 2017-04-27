@@ -1,0 +1,2 @@
+﻿npm install --save --save-exact
+npm uninstall --save --save-exact

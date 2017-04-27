@@ -1,3 +1,10 @@
+var HTMLWebpackPlugin = require('html-webpack-plugin');
+var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
+    template: __dirname + '/dist/index.html',
+    filename: 'index.html',
+    inject: 'body'
+});
+
 const webpack = require('webpack');
 const path = require('path');
 
