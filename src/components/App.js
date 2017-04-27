@@ -19,7 +19,6 @@ var App = React.createClass({
             axios
                 .get("las.json")
                 .then(function (result) {
-                    //alert("success");
                     _this.setState({
                         file: result.data.LASFile,
                         vers: result.data.LASFile._VERSION_INFORMATION,
@@ -44,7 +43,7 @@ var App = React.createClass({
                     </li>
                 </ul>
                 <div className='bg-success'>
-                    This App loads a JSON file converted from an LAS2.0 and formats the data</div>
+                    This App loads a JSON file converted from an LAS2.0 and formats the data.</div>
                 <a href="las.json" target="_blank">las.json</a>
 
             <hr />
