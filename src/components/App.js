@@ -45,6 +45,7 @@ var App = React.createClass({
                 <div className='bg-success'>
                     This App loads a JSON file converted from an LAS2.0 and formats the data.</div>
                 <a href="las.json" target="_blank">las.json</a>
+                <p>The source files for this app can be viewed at <a href="https://github.com/Hahdin/bt-lasapp-1">GitHub</a></p>
 
             <hr />
             <MakeTable data={this.state.vers} cap="Version Info" />
