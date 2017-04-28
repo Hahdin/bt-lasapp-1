@@ -1,17 +1,30 @@
-﻿var React = require('react');
- var NavBar = React.createClass({
-     render: function () {
-         var pages = ['home', 'blog', 'pics', 'bio', 'art', 'shop', 'about', 'contact'];
-         var navLinks = pages.map(function (page) {
-             return (
-                 <a href={'/' + page}>
-                     {page}
-                 </a>
-             );
-         });
+﻿import React, { Component } from 'react'
 
-         return <nav>{navLinks}</nav>;
-         //return <h1>here</h1>;
-     }
- });
- module.exports = NavBar;
+class NavBar extends Component {
+    render() {
+        return (<nav className="navbar navbar-inverse">
+            <div className="container-fluid">
+                <div className="navbar-header">
+                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
+                    </button>
+                    <a className="navbar-brand" href="index.html">LAS JSON App</a>
+                </div>
+                <div className="collapse navbar-collapse" id="myNavbar">
+                    <ul className="nav navbar-nav">
+                        <li className="active"><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Projects</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <ul className="nav navbar-nav navbar-right">
+                        <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>)
+    }
+}
+export default NavBar

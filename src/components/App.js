@@ -1,20 +1,22 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-//var NavBar = require('./NavBar');
-var MakeTable = require('./MakeTable');
+import React, { Component } from 'react'
+import { Router, Route, Link, IndexRoute, hashHistory, browserHistory, DefaultRoute, IndexLink } from 'react-router'
+import NavBar from './NavBar'
+import MakeTable from './MakeTable'
 
-var App = React.createClass({
-    getInitialState: function () {
-        return ({
+class App extends Component {
+
+    constructor(props, context) {
+        super(props, context)
+        this.state = {
             title: 'LAS React App',
             file: {}
-        });
-    },
-    componentWillMount: function () {
-
-    },
-    componentDidMount: function () {
-        var _this = this;
+        }
+    }
+    componentWillMount() {
+        //alert("comp will mount")
+    }
+    componentDidMount() {
+        var _this = this
         this.serverRequest =
             axios
                 .get("las.json")
@@ -25,15 +27,20 @@ var App = React.createClass({
                         well: result.data.LASFile._WELL_INFORMATION,
                         curves: result.data.LASFile._CURVE_INFORMATION,
                         ascii: result.data.LASFile._ASCII
-                    });
+                    })
                 })
-    },
-    componentWillUnmount: function () {
-        this.serverRequest.abort();
-    },
-    render: function () {
+    }
+    componentWillUnmount() {
+        this.serverRequest.abort()
+    }
+    componentDidUnmount() {
+        //alert("comp Did unmount")
+    }
+
+    render() {
         return (
             <div>
+                <NavBar />
                 <h1> LAS JSON Output</h1>
                 <ul>
                     <li>Using:
@@ -47,17 +54,17 @@ var App = React.createClass({
                 <a href="las.json" target="_blank">las.json</a>
                 <p>The source files for this app can be viewed at <a href="https://github.com/Hahdin/bt-lasapp-1">GitHub</a></p>
 
-            <hr />
-            <MakeTable data={this.state.vers} cap="Version Info" />
-            <hr />
-            <MakeTable data={this.state.well} cap="Well Info" />
-            <hr />
-            <MakeTable data={this.state.curves} cap="Curve Info" />
-            <hr />
-            <MakeTable data={this.state.ascii} hdrs={this.state.curves} cap="Curve Data" />
-                </div>
-
-        );
+                <hr />
+                <MakeTable data={this.state.vers} cap="Version Info" />
+                <hr />
+                <MakeTable data={this.state.well} cap="Well Info" />
+                <hr />
+                <MakeTable data={this.state.curves} cap="Curve Info" />
+                <hr />
+                <MakeTable data={this.state.ascii} hdrs={this.state.curves} cap="Curve Data" />
+            </div>
+        )
     }
-});
-module.exports = App;
+}
+export default App
+
