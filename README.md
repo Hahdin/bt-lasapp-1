@@ -17,4 +17,5 @@ $ npm start
 ```
 
 ### CHANGELOG
-
+I am using axios to get the json file. axios depends on a native ES6 Promise implementation.
+To support IE I will use babel's pollyfill'
