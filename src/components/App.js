@@ -27,8 +27,8 @@ class App extends Component {
                         well: result.data.LASFile._WELL_INFORMATION,
                         curves: result.data.LASFile._CURVE_INFORMATION,
                         ascii: result.data.LASFile._ASCII
-                    })
                 })
+            }.bind(this))
     }
     componentWillUnmount() {
         this.serverRequest.abort()
@@ -66,5 +66,6 @@ class App extends Component {
         )
     }
 }
+//const Home = () => <h1>Hello from Home!</h1>
 export default App
 
