@@ -47,6 +47,7 @@ class App extends Component {
 
     handleClick(e) {
         //console.log('click')
+
     }
 
     first() {
@@ -74,17 +75,17 @@ class App extends Component {
         line = line.replace('"', '\'\'')
         var rtn
         if (line.indexOf('~') >= 0) {
-            if (line.search(/~a/i) >= 0) {
+            if (line.search(/~a\w?/i) >= 0) {
                 this.state.fileState.isAscii = true
                 line = '~ASCII'
             }
-            if (line.search(/~V/i) >= 0) {
+            if (line.search(/~V\w?/i) >= 0) {
                 line = '~VERSION_INFORMATION'
             }
-            if (line.search(/~W/i) >= 0) {
+            if (line.search(/~W\w?/i) >= 0) {
                 line = '~WELL_INFORMATION'
             }
-            if (line.search(/~C/i) >= 0) {
+            if (line.search(/~C\w?/i) >= 0) {
                 line = '~CURVE_INFORMATION'
             }
             //remove tiddle, replace with underscore
@@ -171,6 +172,7 @@ class App extends Component {
     }
 
     parseLasFile(file) {
+
         this.state.file = {}
         var newfile = ''
         newfile ='{ "LASFile":{ \r'
@@ -227,14 +229,15 @@ class App extends Component {
     }
 
     handleChange(e) {
-        //console.log('change')
+        document.body.style.cursor = 'wait'
         var _this = this
         var fl = e.target.files 
         var reader = new FileReader()
         reader.onload = function (event) {
             _this.newfile = event.target.result
             _this.parseLasFile()
-        }
+            document.body.style.cursor = 'auto'
+       }
         reader.readAsText(fl[0])
     }
 
