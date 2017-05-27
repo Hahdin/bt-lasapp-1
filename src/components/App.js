@@ -134,18 +134,37 @@ class App extends Component {
             line = line.slice(x + 1)
             line = line.trim()
 
-            x = line.indexOf(' ')
-            if (x < 0)
-                return ''
 
+            /*
+            DATA = value of, or data relating to the mnemonic. This value or input can be of any length
+and can contain spaces, dots or colons as appropriate. It must be preceded by at least one
+space to demarcate it from the units and must be to the left of the last colon in the line.
+            */
+            x = line.indexOf(' ')
+            if (x < 0) {
+                //no space between data and full colon?
+                if (line.endsWith(':')) {
+                    x = line.indexOf(':')
+
+
+                }
+                else
+                    return ''
+            }
+            //if no space between data and colon, value will end with colon
+            
             t = line.slice(0, x)
+            if (t.endsWith(':')) {
+                x -= 1
+                t = line.slice(0, x)
+            }
             t.trim()
             if (bHasUnits)
                 r += qt + unit + qt + t + qt + comma;
             else
                 r += qt + unit + qt + qt + comma;
 
-            line = line.slice(x + 1)
+            line = line.slice(x)
             line = line.trim()
 
             x = line.indexOf(':')
