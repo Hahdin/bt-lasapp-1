@@ -19,12 +19,8 @@ class App extends Component {
             }
         }
     }
-    componentShouldUpdate() {
-        alert('should update')
-    }
 
     componentWillMount() {
-        //alert("comp will mount")
     }
     componentDidMount() {
         var _this = this
@@ -46,7 +42,6 @@ class App extends Component {
     }
 
     handleClick(e) {
-        //console.log('click')
 
     }
 
