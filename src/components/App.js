@@ -118,12 +118,15 @@ class App extends Component {
         else { //not a heading
             //not a heading, parse "name": value
             var t, r;
+            var checkWrap = false
             var bHasUnits = line.indexOf('. ') < 0
             var x = line.indexOf('.')
             if (x < 0)
                 return ''
             t = line.slice(0, x)
             t.trim()
+            if (t.search(/WRAP/) >= 0)
+                checkWrap = true
 
             r = tab + tab + qt + t + qt + ': {'
             if (!this.state.fileState.first) {
@@ -159,6 +162,12 @@ space to demarcate it from the units and must be to the left of the last colon i
                 t = line.slice(0, x)
             }
             t.trim()
+            if (checkWrap) {
+                if (t.search(/yes/i) >= 0) {
+                    alert('File is WRAPPED, cannot process. Use unwrapped LAS files.')
+                    return
+                }
+            }
             if (bHasUnits)
                 r += qt + unit + qt + t + qt + comma;
             else
