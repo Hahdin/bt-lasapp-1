@@ -254,7 +254,7 @@ class App extends Component {
                         <li>React 15.5.4</li>
                     </li>
                 </ul>
-                <div className='bg-success'>
+                <div className='bg-success'>  
                     This App loads an LAS file, converts it to a JSON file and formats the data.</div>
                 <a href="las.json" target="_blank">las.json</a>
                 <p>The source files for this app can be viewed at <a href="https://github.com/Hahdin/bt-lasapp-1">GitHub</a></p>
