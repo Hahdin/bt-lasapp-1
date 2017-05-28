@@ -7,6 +7,7 @@ class App extends Component {
 
     constructor(props, context) {
         super(props, context)
+        this.IsValidLasFile = false
         this.state = {
             title: 'LAS React App',
             file: {},
@@ -102,6 +103,7 @@ class App extends Component {
             }
             if (line.search(/~V\w?/i) >= 0) {
                 line = '~VERSION_INFORMATION'
+                this.IsValidLasFile = true
             }
             if (line.search(/~W\w?/i) >= 0) {
                 line = '~WELL_INFORMATION'
@@ -237,6 +239,21 @@ space to demarcate it from the units and must be to the left of the last colon i
        }
     }
 
+    resetFileState() {
+        console.log('reset state')
+        this.IsValidLasFile = false
+        this.newfile = {}
+        this.setState({
+            fileState: {
+                dataCount: 0,
+                headingCount: 0,
+                first: false,
+                isAscii: false,
+            }
+        })
+
+    }
+
     parseLasFile(file) {
 
         this.state.file = {}
@@ -248,6 +265,11 @@ space to demarcate it from the units and must be to the left of the last colon i
             newfile += this.processLine(line)
             line = this.getLine()
         }
+        if (!this.IsValidLasFile) {
+            alert('Not a valid LAS file, cannot read')
+            this.resetFileState()
+            return
+        }
         newfile += '\r\t}\r}\r}'// end last block, and end brace
         var data
         if (newfile) {
@@ -256,14 +278,7 @@ space to demarcate it from the units and must be to the left of the last colon i
             }
             catch (e) {
                 alert(e)
-                this.setState({
-                    fileState: {
-                        dataCount: 0,
-                        headingCount: 0,
-                        first: false,
-                        isAscii: false,
-                    }
-                })
+                this.resetFileState()
                 return
             }
         }
@@ -281,6 +296,9 @@ space to demarcate it from the units and must be to the left of the last colon i
                 isAscii: false,
             }
         })
+        //reset flag
+        this.IsValidLasFile = false
+        this.newfile = {}//reset filebuffer
 
     }
 
