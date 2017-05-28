@@ -9,10 +9,13 @@ class MakeTable extends Component {
         var mainObject = Object.values(mainData)
         var headings = <tr><th>MNEM</th><th>UINT</th><th>DATA</th><th>Desc.</th></tr>
         var caps = this.props.cap
-        if (this.props.cap == "Curve Info")
+        var nullValue = -999.25
+        if (this.props.cap == "Curve Info") {
             headings = <tr><th>MNEM / Curve ID</th><th>UINT</th><th>DATA</th><th>Desc.</th></tr>
+        }
         if (this.props.cap == "Curve Data") {
             var curveKeys = Object.keys(this.props.hdrs)
+            nullValue = this.props.nullValue
             var head = curveKeys.map(function (key, i) {
                 return <th>{key}</th>
             })
@@ -23,10 +26,11 @@ class MakeTable extends Component {
             var data = mainObject[i]
             var dataKeys = Object.keys(data)
             var dataVals = Object.values(data)
+            
             var dataOut = dataKeys.map(function (datakey, j) {
                 var val = dataVals[j]
                 if (caps == "Curve Data") {
-                    if (val == "-999.25")
+                    if (val == nullValue)
                         return (<td className="bg-danger">{dataVals[j]}</td>);
                     else {
                         var st = { color: 'blue' }

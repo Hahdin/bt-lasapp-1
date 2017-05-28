@@ -11,6 +11,7 @@ class App extends Component {
             title: 'LAS React App',
             file: {},
             newfile: {},
+            nullValue: -999.25,
             fileState: {
                 dataCount: 0,
                 headingCount: 0,
@@ -129,7 +130,7 @@ class App extends Component {
             line = line.replace(/\s+/g,',' )//replace whitespaces with comma
             line = line.replace('\t', ',')
             //JSON arrays cannot leave blank (,,) values, if more than 1 missing value will fail
-            line = line.replace(',,', ',-999.25,');
+            line = line.replace(',,', ',' + this.state.nullValue + ', ');
 
             var ch = "DATA" + this.state.fileState.dataCount++ + '":'
             rtn = tab + tab + qt + ch + '[' + line + ']'
@@ -144,12 +145,18 @@ class App extends Component {
             //not a heading, parse "name": value
             var t, r;
             var checkWrap = false
+            var isNull = false
             var bHasUnits = line.indexOf('. ') < 0
             var x = line.indexOf('.')
             if (x < 0)
                 return ''
             t = line.slice(0, x)
             t.trim()
+
+            // check mnem for the null value
+            if (t.search(/null/i) >= 0)
+                isNull = true
+                
             if (t.search(/WRAP/) >= 0)
                 checkWrap = true
 
@@ -170,23 +177,30 @@ space to demarcate it from the units and must be to the left of the last colon i
             */
             x = line.indexOf(' ')
             if (x < 0) {
-                //no space between data and full colon?
+                //no space between data and full colon? (data: desc)
                 if (line.endsWith(':')) {
                     x = line.indexOf(':')
 
 
                 }
+                //no data or space ( : desc)
+                else if (line.startsWith(':')) {
+                    t = ''//no data
+                    x = 0
+                    
+                }
                 else
                     return ''
             }
-            //if no space between data and colon, value will end with colon
-            
-            t = line.slice(0, x)
-            if (t.endsWith(':')) {
-                x -= 1
+            else { //if no space between data and colon, value will end with colon
+
                 t = line.slice(0, x)
+                if (t.endsWith(':')) {
+                    x -= 1
+                    t = line.slice(0, x)
+                }
+                t = t.trim()
             }
-            t.trim()
             if (checkWrap) {
                 if (t.search(/yes/i) >= 0) {
                     alert('File is WRAPPED, cannot process. Use unwrapped LAS files.')
@@ -209,6 +223,10 @@ space to demarcate it from the units and must be to the left of the last colon i
             t.trim()
             if (bHasUnits)//get the data now
                 u = t
+            if (isNull)
+               // this.state.nullValue = parseFloat(u)
+                this.setState({nullValue: parseFloat(u)})
+
             r += qt + data + qt + u + qt + comma
             line = line.slice(x + 1)
             line = line.trim()
@@ -326,7 +344,7 @@ space to demarcate it from the units and must be to the left of the last colon i
                 <hr />
                 <canvas id="canvas" />
                 <hr />
-                <MakeTable data={this.state.ascii} hdrs={this.state.curves} cap="Curve Data" />
+                <MakeTable data={this.state.ascii} hdrs={this.state.curves} cap="Curve Data" nullValue={this.state.nullValue} />
             </div>
         )
     }
