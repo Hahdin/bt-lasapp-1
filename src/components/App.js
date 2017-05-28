@@ -20,8 +20,6 @@ class App extends Component {
         }
     }
 
-    componentWillMount() {
-    }
     componentDidMount() {
         var _this = this
         this.serverRequest =
@@ -34,29 +32,56 @@ class App extends Component {
                         well: result.data.LASFile._WELL_INFORMATION,
                         curves: result.data.LASFile._CURVE_INFORMATION,
                         ascii: result.data.LASFile._ASCII
-                })
-            }.bind(this))
+                    })
+                    _this.plotValues()
+                }.bind(this))
+
+        //console.log('plot - didmount')
+        _this.plotValues()
+
     }
     componentWillUnmount() {
         this.serverRequest.abort()
     }
 
-    handleClick(e) {
+    plotValues() {
+        return
+        if (this.state.curves == undefined)
+            return
+        var canvas = document.getElementById('canvas')
+        if (canvas == null || canvas == undefined) return
+        var width = canvas.width = 400
+        var height = canvas.height = window.innerWidth - 50
+        var ctx = canvas.getContext("2d")
+        ctx.fillStyle = 'red';
+        ctx.fillRect(0, 0, width, height);
+        ctx.font = "15px Arial";
+        var curveKeys = Object.keys(this.state.curves)
 
+
+
+
+
+        //var line = 10
+        //curveKeys.map(function (key, i) {
+        //    ctx.strokeText(key, 10, line += 20)
+        //})
+
+        //ctx.lineWidth = 10
+        //ctx.strokeStyle = "blue"
+        //this.lineTo(ctx, 0, 0, width, height)
     }
 
-    first() {
-
-    }
-    headingCount() {
-
-    }
-
-    dataLine() {
-
+    lineTo(ctx, x1, y1, x2, y2) {
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
     }
 
     processLine(line) {
+        if (line.startsWith('#'))//comment, skip
+            return ''
         var qt = '"'
         var unit = 'UNIT": '
         var data = 'DATA": '
@@ -259,7 +284,9 @@ space to demarcate it from the units and must be to the left of the last colon i
         reader.onload = function (event) {
             _this.newfile = event.target.result
             _this.parseLasFile()
-            document.body.style.cursor = 'auto'
+            _this.plotValues()
+           document.body.style.cursor = 'auto'
+
        }
         reader.readAsText(fl[0])
     }
@@ -285,12 +312,9 @@ space to demarcate it from the units and must be to the left of the last colon i
                 <a href="las.json" target="_blank">las.json</a>
                 <p>The source files for this app can be viewed at <a href="https://github.com/Hahdin/bt-lasapp-1">GitHub</a></p>
                 <hr />
-                <input id="file-input" type="file" name="name" enctype="multipart/form-data"
+                <input id="file-input" type="file" name="name" encType="multipart/form-data"
                    onChange={(event) => {
                        this.handleChange(event)
-                   }}
-                   onClick={(event) => {
-                       this.handleClick(event)
                    }}
                 />
                 <hr />
@@ -299,6 +323,8 @@ space to demarcate it from the units and must be to the left of the last colon i
                 <MakeTable data={this.state.well} cap="Well Info" />
                 <hr />
                 <MakeTable data={this.state.curves} cap="Curve Info" />
+                <hr />
+                <canvas id="canvas" />
                 <hr />
                 <MakeTable data={this.state.ascii} hdrs={this.state.curves} cap="Curve Data" />
             </div>
