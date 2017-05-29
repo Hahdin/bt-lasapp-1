@@ -37,8 +37,6 @@ class App extends Component {
                     })
                     _this.plotValues()
                 }.bind(this))
-
-        //console.log('plot - didmount')
         _this.plotValues()
 
     }
@@ -47,7 +45,7 @@ class App extends Component {
     }
 
     plotValues() {
-        return
+        return// not implemented yet
         if (this.state.curves == undefined)
             return
         var canvas = document.getElementById('canvas')
@@ -62,16 +60,6 @@ class App extends Component {
 
 
 
-
-
-        //var line = 10
-        //curveKeys.map(function (key, i) {
-        //    ctx.strokeText(key, 10, line += 20)
-        //})
-
-        //ctx.lineWidth = 10
-        //ctx.strokeStyle = "blue"
-        //this.lineTo(ctx, 0, 0, width, height)
     }
 
     lineTo(ctx, x1, y1, x2, y2) {
@@ -94,7 +82,8 @@ class App extends Component {
         var tab = '\t'
 
         line = line.trim()
-        line = line.replace('"', '\'\'')
+        //replace tabs with spaces
+        line = line.replace(/\t+/g, ' ')
         var rtn
         if (line.indexOf('~') >= 0) {
             if (line.search(/~a\w?/i) >= 0) {
