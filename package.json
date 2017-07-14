@@ -1,6 +1,9 @@
 {
   "name": "las-json",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "React App that loads a JSON file and formats it to tables",
   "main": "server.js",
   "scripts": {
